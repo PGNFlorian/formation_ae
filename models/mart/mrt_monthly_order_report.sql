@@ -26,12 +26,6 @@ FROM {{ ref('stg_sales_database__order')}}
 GROUP BY order_month
 
 
-), shipping_cost AS (
-
-
-SELECT shipping_cost
-FROM dataset_fil_rouge.order_item
-WHERE price > 7000
 )
 SELECT u.order_month,
 COALESCE(u.total_monthly_users,0) AS nb_users_monthly,
