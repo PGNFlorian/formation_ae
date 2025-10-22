@@ -3,7 +3,7 @@ WITH monthly_users_recap AS (
 
 SELECT DATE_TRUNC(order_date,month) AS order_month,
 COUNT(DISTINCT user_name) AS total_monthly_users
-FROM {{ source('sales_database', 'order')}}
+FROM {{ source('dataset_fil_rouge', 'order')}}
 GROUP BY 1
 ORDER BY total_monthly_users DESC
 
@@ -11,8 +11,8 @@ ORDER BY total_monthly_users DESC
 ), total_monthly_user_from_jawa_timur AS (
 SELECT DATE_TRUNC(order_date,month) AS order_month,
 COUNT(DISTINCT user.user_name) AS total_monthly_users_from_jawa_timur
-FROM {{ source('sales_database', 'order')}} AS orders
-LEFT JOIN {{ source('sales_database', 'user')}} AS user ON user.user_name = orders.user_name
+FROM {{ source('dataset_fil_rouge', 'order')}} AS orders
+LEFT JOIN {{ source('dataset_fil_rouge', 'user')}} AS user ON user.user_name = orders.user_name
 WHERE user.customer_state LIKE '%JAWA%TIMUR%'
 GROUP BY order_month
 
@@ -22,7 +22,7 @@ GROUP BY order_month
 
 SELECT DATE_TRUNC(order_date,month) AS order_months,
 COUNT(order_id) AS total_monthly_orders
-FROM {{ source('sales_database', 'order')}}
+FROM {{ source('dataset_fil_rouge', 'order')}}
 GROUP BY order_month
 
 
@@ -30,7 +30,7 @@ GROUP BY order_month
 
 
 SELECT shipping_cost
-FROM sales_database.order_item
+FROM dataset_fil_rouge.order_item
 WHERE price > 7000
 )
 SELECT u.order_month,
