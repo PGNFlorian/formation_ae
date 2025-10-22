@@ -22,7 +22,7 @@ GROUP BY order_month
 
 SELECT DATE_TRUNC(order_date,month) AS order_months,
 COUNT(order_id) AS total_monthly_orders
-FROM {{ source('dataset_fil_rouge', 'order')}}
+FROM {{ ref('stg_sales_database__order')}}
 GROUP BY order_month
 
 
